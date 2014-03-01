@@ -117,7 +117,7 @@ String filename_append(String file, String a){
 void image_init(String path, String file){
   
   img_file = path + "/" + file;
-  img_file_glitch = "output/" + filename_append(file, "_glitch");
+  img_file_glitch = "glixr_output/" + filename_append(file, "_glitch");
   
   byte[] data = loadBytes(img_file);
   saveBytes(img_file_glitch, data);
