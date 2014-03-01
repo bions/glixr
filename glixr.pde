@@ -1,4 +1,4 @@
-// JAVA FILE SYSTEM
+import java.util.Date;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 
@@ -39,14 +39,14 @@ void draw() {
   
   // DRAW HELP
   
-  text("mode " + (mode + 1) + ": " + modes[mode], 20, 30);
-  
   if(show_help){
+    text("mode " + (mode + 1) + ": " + modes[mode], 20, 30);
     text("press enter or drop image to load", 20, 60);
-    text("press 1–2   => change mode", 20, 80);
-    text("mouse left  => glitch", 20, 100);
-    text("mouse right => reset", 20, 120);
-    text("press h     => show hide help", 20, 140);
+    text("press 1–2 ...... change mode", 20, 80);
+    text("mouse left ..... glitch", 20, 100);
+    text("mouse right .... reset", 20, 120);
+    text("press s ........ save glitch to output dir", 20, 140);
+    text("press h ........ show hide help", 20, 160);
   }
 }
 
@@ -63,6 +63,11 @@ void keyPressed() {
     break;
   case 72: // h
     show_help = !show_help;
+    break;
+  case 83: // s
+    Date d = new Date();
+    byte[] data = loadBytes(img_file_glitch);
+    saveBytes(filename_append(img_file_glitch, "_" + String.valueOf(d.getTime())), data);
     break;
   }
   println(keyCode);
@@ -103,14 +108,16 @@ void mousePressed() {
   }
 }
 
+String filename_append(String file, String a){
+  String[] file_name = split(file, '.');
+  file_name[file_name.length-2] += a;
+  return join(file_name, ".");
+}
+
 void image_init(String path, String file){
   
-  // append _glitch to filename
-  String[] file_name = split(file, '.');
-  file_name[file_name.length-2] += "_glitch";
-  
   img_file = path + "/" + file;
-  img_file_glitch = join(file_name, ".");
+  img_file_glitch = "output/" + filename_append(file, "_glitch");
   
   byte[] data = loadBytes(img_file);
   saveBytes(img_file_glitch, data);
