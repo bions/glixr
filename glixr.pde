@@ -12,7 +12,7 @@ boolean show_help = true;
 
 int mode = 0;
 String modes[] = {
-  "random",
+  "random", 
   "position x y"
 };
 
@@ -29,17 +29,17 @@ void setup() {
 }
 
 void draw() {
-  
+
   background(0);
-  
+
   // DRAW IMAGE
-  if(img != null){
+  if (img != null) {
     image(img, 0, 0);
   }
-  
+
   // DRAW HELP
-  
-  if(show_help){
+
+  if (show_help) {
     text("mode " + (mode + 1) + ": " + modes[mode], 20, 30);
     text("press enter or drop image to load", 20, 60);
     text("press 1–2 ...... change mode", 20, 80);
@@ -74,9 +74,9 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  
-  if(img_file.equals("")) return;
-  
+
+  if (img_file.equals("")) return;
+
   // MOUSE LEFT BUTTON: GLITCH
   if (mouseButton == LEFT) {
     byte[] data = loadBytes(img_file_glitch);   
@@ -108,26 +108,31 @@ void mousePressed() {
   }
 }
 
-String filename_append(String file, String a){
+String filename_append(String file, String a) {
   String[] file_name = split(file, '.');
   file_name[file_name.length-2] += a;
   return join(file_name, ".");
 }
 
-void image_init(String path, String file){
+void image_init(String path, String file) {
+  
+  if(!file.toLowerCase().endsWith(".jpg")) {
+    println("File is not JPG.");
+    return;
+  }
   
   img_file = path + "/" + file;
   img_file_glitch = "glixr_output/" + filename_append(file, "_glitch");
-  
+
   byte[] data = loadBytes(img_file);
   saveBytes(img_file_glitch, data);
   img = loadImage(img_file);
-  
+
   frame.setSize(img.width, img.height);
 }
 
 void dropEvent(DropEvent event) {
-  if(event.isImage()) {
+  if (event.isImage()) {
     image_init(event.file().getParent(), event.file().getName());
   }
 }
@@ -140,14 +145,14 @@ void fileChoose() {
     e.printStackTrace();
   }
   final JFileChooser fc = new JFileChooser();
-  FileFilter filter = new FileNameExtensionFilter("JPG or PNG images", "jpg", "png");
+  FileFilter filter = new FileNameExtensionFilter("JPG images", "jpg");
   fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
   fc.addChoosableFileFilter(filter);
   fc.setAcceptAllFileFilterUsed(false);
   fc.setDialogTitle("Select image");
   if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
     File file = fc.getSelectedFile();
-    image_init(file.getParent(),file.getName());
+    image_init(file.getParent(), file.getName());
   } 
   else { 
     println("Open command cancelled by user.");
