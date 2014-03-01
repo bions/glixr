@@ -2,6 +2,9 @@
 import javax.swing.*;
 import javax.swing.filechooser.*;
 
+import sojamo.drop.*;
+
+SDrop drop;
 PImage img;
 PFont font;
 
@@ -19,6 +22,7 @@ String img_file_glitch = "";
 void setup() {
   size(500, 500, P2D);
   frame.setResizable(true);
+  drop = new SDrop(this);
   font = loadFont("Monospaced-12.vlw");
   textFont(font, 12);
   background(0);
@@ -29,7 +33,7 @@ void draw() {
   background(0);
   
   // DRAW IMAGE
-  if(!img_file.equals("")){
+  if(img != null){
     image(img, 0, 0);
   }
   
@@ -113,6 +117,12 @@ void image_init(String path, String file){
   img = loadImage(img_file);
   
   frame.setSize(img.width, img.height);
+}
+
+void dropEvent(DropEvent event) {
+  if(event.isImage()) {
+    image_init(event.file().getParent(), event.file().getName());
+  }
 }
 
 void fileChoose() {
