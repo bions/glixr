@@ -133,7 +133,6 @@ void dropEvent(DropEvent event) {
 }
 
 void fileChoose() {
-  //if(!img_file.equals("")) return;
   try { 
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
   } 
@@ -153,6 +152,5 @@ void fileChoose() {
   else { 
     println("Open command cancelled by user.");
   }
-  
 }
 
