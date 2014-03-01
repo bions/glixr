@@ -103,14 +103,16 @@ void mousePressed() {
   }
 }
 
+String filename_append(String file, String a){
+  String[] file_name = split(file, '.');
+  file_name[file_name.length-2] += a;
+  return join(file_name, ".");
+}
+
 void image_init(String path, String file){
   
-  // append _glitch to filename
-  String[] file_name = split(file, '.');
-  file_name[file_name.length-2] += "_glitch";
-  
   img_file = path + "/" + file;
-  img_file_glitch = join(file_name, ".");
+  img_file_glitch = filename_append(file, "_glitch");
   
   byte[] data = loadBytes(img_file);
   saveBytes(img_file_glitch, data);
